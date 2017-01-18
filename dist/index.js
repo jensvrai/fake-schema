@@ -4,8 +4,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
-
 require('babel-polyfill');
 
 var _simplSchema = require('simpl-schema');
@@ -20,9 +18,13 @@ var _bson = require('bson');
 
 var _bson2 = _interopRequireDefault(_bson);
 
+var _regenerator = require('babel-runtime/regenerator');
+
+var _regenerator2 = _interopRequireDefault(_regenerator);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var _marked = [simpleSchemaDocGenerator].map(regeneratorRuntime.mark);
+var _marked = [simpleSchemaDocGenerator].map(_regenerator2.default.mark);
 
 var ObjectId = _bson2.default.ObjectId;
 
@@ -178,7 +180,7 @@ function simpleSchemaDocGenerator(schema) {
   var overrideDoc = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
   var params = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
   var fakers = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
-  return regeneratorRuntime.wrap(function simpleSchemaDocGenerator$(_context) {
+  return _regenerator2.default.wrap(function simpleSchemaDocGenerator$(_context) {
     while (1) {
       switch (_context.prev = _context.next) {
         case 0:
@@ -205,48 +207,4 @@ function simpleSchemaDocGenerator(schema) {
 Fake.simpleSchemaDoc = simpleSchemaDoc;
 Fake.simpleSchemaDocGenerator = simpleSchemaDocGenerator;
 
-var CompanySchema = new _simplSchema2.default({
-  name: {
-    type: String,
-    label: 'Name'
-  },
-  bankAccount: {
-    type: String,
-    label: 'Bank Account',
-    optional: true
-  },
-  website: {
-    type: String,
-    label: 'Website',
-    regEx: _simplSchema2.default.RegEx.Url,
-    optional: true
-  },
-  telephoneNumber: {
-    type: String,
-    label: 'Telephone Number',
-    optional: true
-  },
-  taxNumber: {
-    type: String,
-    label: 'Tax Number',
-    optional: true
-  }
-});
-
-// const g = simpleSchemaDoc(CompanySchema);
-
-var _simpleSchemaDocGener = simpleSchemaDocGenerator(CompanySchema),
-    _simpleSchemaDocGener2 = _slicedToArray(_simpleSchemaDocGener, 2),
-    fakeDoc1 = _simpleSchemaDocGener2[0],
-    fakeDoc2 = _simpleSchemaDocGener2[1];
-
-var fakeDoc3 = simpleSchemaDoc(CompanySchema);
-// console.log(g.next());
-// console.log(g.next());
-// console.log(g.next());
-
-console.log('fakeDoc1', fakeDoc1);
-console.log('fakeDoc2', fakeDoc2);
-console.log('fakeDoc3', fakeDoc3);
-console.log('new ObjectId();', new ObjectId());
 exports.default = Fake;
