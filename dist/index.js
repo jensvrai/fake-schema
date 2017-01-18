@@ -40,7 +40,7 @@ utils.getRandomString = function () {
   return value;
 };
 
-utils.generateValue = function (schemaKey) {
+utils.generateValue = function (schemaKey, fakeFn) {
   var _schemaKey$type$defin = schemaKey.type.definitions[0],
       allowedValues = _schemaKey$type$defin.allowedValues,
       _schemaKey$type$defin2 = _schemaKey$type$defin.min,
@@ -88,8 +88,8 @@ utils.generateValue = function (schemaKey) {
       break;
   }
 
-  if (typeof fake === 'function') {
-    value = fake(schemaKey, value);
+  if (typeof fakeFn === 'function') {
+    value = fakeFn();
   }
 
   return value;
@@ -99,6 +99,7 @@ utils.generateValue = function (schemaKey) {
 Fake.simpleSchemaDoc = function (schema) {
   var overrideDoc = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
   var params = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+  var fakers = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
 
   var fakeObj = {};
   params = Object.assign({}, params, defaultParams);
@@ -110,7 +111,7 @@ Fake.simpleSchemaDoc = function (schema) {
       generateInnerObjectField(schemaKey, deepness, fakeObj, params);
     } else {
       // if it is just field in schema, not object or [Object]
-      fakeObj[key] = generateValue(schemaKey);
+      fakeObj[key] = utils.generateValue(schemaKey, fakers[key]);
     }
   });
   return Object.assign({}, overrideDoc, fakeObj);
@@ -133,5 +134,33 @@ Fake.simpleSchemaArray = function (schema) {
   }
   return result;
 };
+
+var CompanySchema = new _simplSchema2.default({
+  name: {
+    type: String,
+    label: 'Name'
+  },
+  bankAccount: {
+    type: String,
+    label: 'Bank Account',
+    optional: true
+  },
+  website: {
+    type: String,
+    label: 'Website',
+    regEx: _simplSchema2.default.RegEx.Url,
+    optional: true
+  },
+  telephoneNumber: {
+    type: String,
+    label: 'Telephone Number',
+    optional: true
+  },
+  taxNumber: {
+    type: String,
+    label: 'Tax Number',
+    optional: true
+  }
+});
 
 exports.default = Fake;
