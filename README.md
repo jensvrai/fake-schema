@@ -1,0 +1,1 @@
+Generate Fake data with faker.js and simpl-schema
