@@ -6,6 +6,7 @@ Generate Fake data with faker.js and simpl-schema
 ### simpleSchemaDoc(schema (, overrideDoc, params, fakers))
 
 ```js
+import SimpleSchema from 'simpl-schema';
 import Fake from 'fake-schema';
 
 const CompanySchema = new SimpleSchema({
@@ -27,6 +28,7 @@ const company = Fake.simpleSchemaDoc(CompanySchema);
 ### simpleSchemaDoc(schema, overrideDoc, params, fakers)
 
 ```js
+import SimpleSchema from 'simpl-schema';
 import Fake from 'fake-schema';
 import faker from 'faker';
 
@@ -54,6 +56,7 @@ const company = Fake.simpleSchemaDoc(CompanySchema, {}, {}, fakers);
 ### simpleSchemaDocGenerator(schema (, overrideDoc, params, fakers ))
 
 ```js
+import SimpleSchema from 'simpl-schema';
 import Fake from 'fake-schema';
 
 const CompanySchema = new SimpleSchema({
