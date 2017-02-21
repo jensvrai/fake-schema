@@ -169,8 +169,7 @@ function simpleSchemaDoc(schema) {
       fakeObj[key] = utils.generateValue(schemaKey, fakers[key]);
     }
   });
-  // return Object.assign({}, overrideDoc, fakeObj);
-  return Object.assign({}, overrideDoc, fakeObj);
+  return Object.assign({}, fakeObj, overrideDoc);
 }
 
 /** Generator for simpleSchemaDoc **/
