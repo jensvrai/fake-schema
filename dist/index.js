@@ -14,9 +14,9 @@ var _faker = require('faker');
 
 var _faker2 = _interopRequireDefault(_faker);
 
-var _bson = require('bson');
+var _meteorRandom = require('meteor-random');
 
-var _bson2 = _interopRequireDefault(_bson);
+var _meteorRandom2 = _interopRequireDefault(_meteorRandom);
 
 var _regenerator = require('babel-runtime/regenerator');
 
@@ -25,8 +25,6 @@ var _regenerator2 = _interopRequireDefault(_regenerator);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var _marked = [simpleSchemaDocGenerator].map(_regenerator2.default.mark);
-
-var ObjectId = _bson2.default.ObjectId;
 
 var utils = {};
 var Fake = {};
@@ -87,7 +85,7 @@ utils.generateValue = function (schemaKey, fakeFn) {
     case String:
       switch (regEx) {
         case _simplSchema2.default.RegEx.Id:
-          value = new ObjectId();
+          value = _meteorRandom2.default.id();
           break;
         default:
           if (allowedValues) {
@@ -180,23 +178,57 @@ function simpleSchemaDocGenerator(schema) {
   var overrideDoc = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
   var params = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
   var fakers = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
+  var orginalSchema, originalOverrideDoc, originalParams, originalFakers, result;
   return _regenerator2.default.wrap(function simpleSchemaDocGenerator$(_context) {
     while (1) {
       switch (_context.prev = _context.next) {
         case 0:
+          orginalSchema = schema;
+          originalOverrideDoc = overrideDoc;
+          originalParams = params;
+          originalFakers = fakers;
+
+        case 4:
           if (!true) {
-            _context.next = 5;
+            _context.next = 11;
             break;
           }
 
-          _context.next = 3;
+          _context.next = 7;
           return simpleSchemaDoc(schema, overrideDoc, params, fakers);
 
-        case 3:
-          _context.next = 0;
+        case 7:
+          result = _context.sent;
+
+          if (result) {
+            if (result.schema) {
+              schema = result.orginalSchema;
+            } else {
+              schema = orginalSchema;
+            }
+
+            if (result.overrideDoc) {
+              overrideDoc = result.overrideDoc;
+            } else {
+              overrideDoc = originalOverrideDoc;
+            }
+
+            if (result.params) {
+              params = result.params;
+            } else {
+              params = originalParams;
+            }
+
+            if (result.fakers) {
+              fakers = result.fakers;
+            } else {
+              fakers = originalFakers;
+            }
+          }
+          _context.next = 4;
           break;
 
-        case 5:
+        case 11:
         case 'end':
           return _context.stop();
       }
