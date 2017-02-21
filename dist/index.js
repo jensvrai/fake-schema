@@ -223,6 +223,11 @@ function simpleSchemaDocGenerator(schema) {
             } else {
               fakers = originalFakers;
             }
+          } else {
+            schema = orginalSchema;
+            overrideDoc = originalOverrideDoc;
+            params = originalParams;
+            fakers = originalFakers;
           }
           _context.next = 4;
           break;
