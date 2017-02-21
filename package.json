@@ -1,6 +1,6 @@
 {
   "name": "fake-schema",
-  "version": "1.0.3",
+  "version": "1.1.0",
   "description": "Simpl Schema + fake data generators",
   "homepage": "http://solarapps.be",
   "main": "dist/index.js",

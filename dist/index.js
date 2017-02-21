@@ -172,6 +172,20 @@ function simpleSchemaDoc(schema) {
   return Object.assign({}, fakeObj, overrideDoc);
 }
 
+function factory(schema) {
+  var overrideDoc = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+  var params = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+  var fakers = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
+
+  return {
+    create: function create() {
+      var overrideDocLocal = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+      return simpleSchemaDoc(schema, Object.assign({}, overrideDoc, overrideDocLocal), params, fakers);
+    }
+  };
+}
+
 /** Generator for simpleSchemaDoc **/
 function simpleSchemaDocGenerator(schema) {
   var overrideDoc = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
@@ -242,5 +256,6 @@ function simpleSchemaDocGenerator(schema) {
 
 Fake.simpleSchemaDoc = simpleSchemaDoc;
 Fake.simpleSchemaDocGenerator = simpleSchemaDocGenerator;
+Fake.factory = factory;
 
 exports.default = Fake;
