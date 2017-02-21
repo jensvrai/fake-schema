@@ -68,7 +68,7 @@ utils.getRandomString = function () {
 * @params {function} fakeFn
 *
 **/
-utils.generateValue = function (schemaKey, fakeFn) {
+utils.generateValue = function (schemaKey, fakeFn, key) {
   var _schemaKey$type$defin = schemaKey.type.definitions[0],
       allowedValues = _schemaKey$type$defin.allowedValues,
       _schemaKey$type$defin2 = _schemaKey$type$defin.min,
@@ -83,8 +83,8 @@ utils.generateValue = function (schemaKey, fakeFn) {
 
   switch (type) {
     case String:
-      switch (regEx) {
-        case _simplSchema2.default.RegEx.Id:
+      switch (String(regEx)) {
+        case String(_simplSchema2.default.RegEx.Id):
           value = _meteorRandom2.default.id();
           break;
         default:
@@ -114,6 +114,9 @@ utils.generateValue = function (schemaKey, fakeFn) {
     case 'Object':
       value = {};
       break;
+    case 'Array':
+      value = [];
+      break;
     default:
       break;
   }
@@ -126,7 +129,7 @@ utils.generateValue = function (schemaKey, fakeFn) {
 };
 
 /** Recursive create fields for inner objects and arrays **/
-var generateInnerObjectField = function generateInnerObjectField(schemaKey, deepness, obj, params) {
+var generateInnerObjectField = function generateInnerObjectField(schemaKey, deepness, obj, params, fakeFn) {
   if (!deepness || !Array.isArray(deepness) || deepness.length === 0) return;
   var d = deepness[0];
 
@@ -139,8 +142,12 @@ var generateInnerObjectField = function generateInnerObjectField(schemaKey, deep
     var len = create ? _faker2.default.random.number({ min: params.minArrayLength, max: params.maxArrayLength }) : arr.length;
 
     for (var j = 0; j < len; j++) {
-      if (create) arr.push({});
-      generateInnerObjectField(schemaKey, _.drop(deepness, 2), arr[j], params);
+      if (deepness[2]) {
+        if (create) arr.push({});
+        generateInnerObjectField(schemaKey, _.drop(deepness, 2), arr[j], params);
+      } else {
+        if (create) arr.push(utils.generateValue(schemaKey, fakeFn));
+      }
     }
   } else if (d === '') {
     if (!obj[d]) obj[d] = {};
@@ -163,10 +170,10 @@ function simpleSchemaDoc(schema) {
     var schemaKey = schema._schema[key];
     var deepness = key.split('.'); // calculate if that field is description of inner object
     if (deepness.length > 1) {
-      generateInnerObjectField(schemaKey, deepness, fakeObj, params);
+      generateInnerObjectField(schemaKey, deepness, fakeObj, params, fakers);
     } else {
       // if it is just field in schema, not object or [Object]
-      fakeObj[key] = utils.generateValue(schemaKey, fakers[key]);
+      fakeObj[key] = utils.generateValue(schemaKey, fakers[key], key);
     }
   });
   return Object.assign({}, fakeObj, overrideDoc);
