@@ -1,6 +1,6 @@
 {
   "name": "fake-schema",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Simpl Schema + fake data generators",
   "homepage": "http://solarapps.be",
   "main": "dist/index.js",
@@ -27,7 +27,7 @@
     "chance": "^1.0.4",
     "faker": "^3.1.0",
     "randexp": "^0.4.3",
-    "simpl-schema": "^0.1.0",
+    "simpl-schema": "^0.2.3",
     "meteor-random": "^0.0.3"
   },
   "devDependencies": {
